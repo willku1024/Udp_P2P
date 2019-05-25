@@ -1,0 +1,36 @@
+syntax = "proto2";
+package udpp2p;
+
+message AddrTuple {
+  required string addr = 1;  
+  required uint32 port = 2;
+  required uint64 sessionId = 3;
+}
+
+
+enum MsgType {
+  PING = 0;
+  PONG = 1;
+  LINKREQ = 2;
+  LINKRSP = 3;
+  P2PREQ = 4;
+  P2PRSP = 5;
+  PULL = 6;
+  PUSH = 7;
+}
+
+message SrvRsp {
+ required MsgType type = 1 [default = PONG];
+ repeated AddrTuple addrs = 2;
+ optional uint64 sessionId = 3;
+ optional string message = 4;
+
+}
+
+
+message CltReq {
+ required MsgType type = 1 [default = PING];
+ repeated AddrTuple addrs = 2;
+ optional uint64 sessionId = 3;
+ optional string message = 4;
+}
