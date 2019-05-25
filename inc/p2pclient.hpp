@@ -155,7 +155,7 @@ void UdpClient::recvMsg()
 void UdpClient::p2pMode()
 {
 
-    std::cout << "【Enter P2P Chat Mode, Send Message】:";
+    std::cout << "[Enter P2P Chat Mode, Send Message]:";
     //////////////////
     std::string message;
     std::getline(std::cin, message);

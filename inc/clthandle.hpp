@@ -393,7 +393,7 @@ public:
     if (msgRsp.has_message())
     {
       std::cout << std::endl;
-      std::cout << "【Enter P2P Chat Mode, Recv Message】=>" << msgRsp.message() << std::endl;
+      std::cout << "[Enter P2P Chat Mode, Recv Message]=>" << msgRsp.message() << std::endl;
       //std::cin.putback('\n');
     }
   }
