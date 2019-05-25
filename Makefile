@@ -1,10 +1,3 @@
-
-
-
-
-#SOURCES = $(notdir $(wildcard src/*))
-#HEADERS = $(wildcard inc/*)
-
 TOP_DIR = $(shell pwd)
 OBJ_DIR = $(TOP_DIR)/obj
 BIN_DIR = $(TOP_DIR)/bin
@@ -21,9 +14,7 @@ CLIENT = client
 SERVER = server
 
 
-
 all:$(OBJFILES) $(CLIENT) $(SERVER)
-
 
 $(CLIENT):
 	@echo "\033[33m build client \033[0m" 
@@ -34,7 +25,6 @@ $(SERVER):
 	@echo "\033[33m build server \033[0m" 
 	@echo $(C_FILES)
 	$(CC) $(filter-out %$(join $(CLIENT), .o), $(wildcard $(OBJ_DIR)/*)) -o $(BIN_DIR)/$@ $(LIBS)
-
 
 $(OBJFILES): %.o:%.cc 
 	@echo "\033[33m build objects \033[0m" 
