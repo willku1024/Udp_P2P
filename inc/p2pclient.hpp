@@ -16,9 +16,10 @@ class UdpClient : public BaseP2P
 protected:
     void initSocket(int port, std::string addr);
     void recvMsg();
-    void putMenu();
-    void p2pMenu();
-    void startMenu();
+    void menu();
+    void printMenu();
+    void p2pMode();
+    void normalMode();
     void sendP2PReq();
 
 protected:
@@ -69,10 +70,10 @@ UdpClient::UdpClient(int port, std::string addr) : BaseP2P()
     m_ptrHandler = BaseHandler::getInstance();
     m_ptrHandler->setBaseServer(this);
     initSocket(port, addr);
-    sendMsgTrd = std::unique_ptr<std::thread>(new std::thread(&UdpClient::putMenu, this));
+    sendMsgTrd = std::unique_ptr<std::thread>(new std::thread(&UdpClient::printMenu, this));
     sendP2PTrd = std::unique_ptr<std::thread>(new std::thread(&UdpClient::sendP2PReq, this));
 
-    std::cout << "Client [" << gen_machine_code() << "] init success. Enter <help> to show menu." << std::endl;
+    menu();
 }
 
 void UdpClient::recvMsg()
@@ -151,7 +152,7 @@ void UdpClient::recvMsg()
     }
 }
 
-void UdpClient::p2pMenu()
+void UdpClient::p2pMode()
 {
 
     std::cout << "【Enter P2P Chat Mode, Send Message】:";
@@ -179,40 +180,41 @@ void UdpClient::p2pMenu()
     ClientP2PSendHandler::getHandler()->handle(msgReq, peerTuple, peerAddr);
 }
 
-void UdpClient::startMenu()
+void UdpClient::menu()
 {
-    auto printMenu = []() {
-        std::cout << "=======================================================" << std::endl;
-        std::cout << "Command:"
-                     "\n\thelp    : Show this information."
-                     "\n\tlogin   : Login p2p server to make you punchable."
-                     "\n\tlist    : List all client-id<cid> from server."
-                     "\n\tpunch <cid>: Send punch request to remote client and start a p2p session."
-                  << std::endl;
-        std::cout << "=======================================================" << std::endl;
-        std::cout << "[Choose One Option]:";
-    };
-    //////////////////
+    std::cout << "=======================Command Menu=======================" << std::endl;
+    std::cout << "\n  help: Show this information."
+                 "\n  login: Login p2p server to make you punchable."
+                 "\n  list: List all client-id<cid> from server."
+                 "\n  punch <cid>: Send punch request to peer client and start a p2p session."
+              << std::endl;
+    std::cout << "==========================================================" << std::endl;
+    std::cout << "[Choose One Option]:" << std::flush;
+}
+
+void UdpClient::normalMode()
+{
     std::string command, option, cid;
     std::getline(std::cin, command);
 
     std::stringstream parse(command);
-    std::getline(parse, option, ' ');
-    std::getline(parse, cid, ' ');
-
+    parse >> option;
+    parse >> cid;
+    //std::cin.ignore(1024, '\n');
 
     if (!(getState() & udpp2p::MsgType::PONG))
     {
         std::cout << "\033[31m[Tip]:"
                   << "Connect to server fail. Wait and try again."
                   << "\033[0m" << std::endl;
+        std::cout << "[Choose One Option]:" << std::flush;
         return;
     }
 
     switch (hash_(option.c_str()))
     {
     case "help"_hash:
-        printMenu();
+        menu();
         break;
     case "login"_hash:
         std::cout << "\033[34m[Tip]:"
@@ -257,15 +259,15 @@ void UdpClient::startMenu()
     }
     break;
     default:
-        if (option.size() != 0)
-            std::cout << "\033[31m[Tip]:"
-                      << "!!Unkown Options!!"
-                      << "\033[0m" << std::endl;
+        // if (option.size() != 0)
+        std::cout << "\033[31m[Tip]:"
+                  << "!!Unkown Options!!"
+                  << "\033[0m" << std::endl;
         break;
     }
 }
 
-void UdpClient::putMenu()
+void UdpClient::printMenu()
 {
 
     std::string command, option, cid;
@@ -284,13 +286,20 @@ void UdpClient::putMenu()
 
         if (retval > 0)
         {
+            while (std::cin.peek() == '\n' || std::cin.peek() == ' ')
+            {
+                std::cout << "[Choose One Option]:" << std::flush;
+                std::cin.get();
+                continue;
+            }
+
             if (getState() & BITSET(0x0E))
             {
-                p2pMenu();
+                p2pMode();
             }
             else
             {
-                startMenu();
+                normalMode();
             }
         }
     }

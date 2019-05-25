@@ -185,6 +185,7 @@ public:
       auto addr = msgRsp.addrs(it);
       if (addr.sessionid() != ::gen_machine_code())
       {
+        std::cout << std::endl;
         std::cout << std::internal << std::setw(20) << "\033[33m"
                   //<< "ssid[" << addr.sessionid() << "]\t"
                   << "cid:" << it << "\t"
@@ -194,7 +195,7 @@ public:
       }
     }
 
-    debug << "!!!!!!!!!!!!:" << BaseHandler::base_server->getMap().size() << std::endl;
+    debug << BaseHandler::base_server->getMap().size() << std::endl;
     if (0 == BaseHandler::base_server->getMap().size())
     {
       std::cout << std::internal << std::setw(20) << "\033[33m"
