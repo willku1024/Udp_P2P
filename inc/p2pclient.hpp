@@ -182,7 +182,7 @@ void UdpClient::p2pMode()
 
 void UdpClient::menu()
 {
-    std::cout << "=======================Command Menu=======================" << std::endl;
+    std::cout << "=======================Command Menu=======================" << std::flush;
     std::cout << "\n  help: Show this information."
                  "\n  login: Login p2p server to make you punchable."
                  "\n  list: List all client-id<cid> from server."
@@ -194,6 +194,14 @@ void UdpClient::menu()
 
 void UdpClient::normalMode()
 {
+
+    while (std::cin.peek() == '\n' || std::cin.peek() == ' ')
+    {
+        std::cout << "[Choose One Option]:" << std::flush;
+        std::cin.get();
+        continue;
+    }
+    ////////////////////
     std::string command, option, cid;
     std::getline(std::cin, command);
 
@@ -246,7 +254,7 @@ void UdpClient::normalMode()
 
             ClientLinkSendHandler::getHandler()->handle(nullReq, peerTuple, addr);
             std::cout << "\033[34m[Tip]:"
-                      << "send request success, please wait."
+                      << "Request success, please wait 5s and enter <p2p>."
                       << "\033[0m" << std::endl;
         }
         else
@@ -286,13 +294,6 @@ void UdpClient::printMenu()
 
         if (retval > 0)
         {
-            while (std::cin.peek() == '\n' || std::cin.peek() == ' ')
-            {
-                std::cout << "[Choose One Option]:" << std::flush;
-                std::cin.get();
-                continue;
-            }
-
             if (getState() & BITSET(0x0E))
             {
                 p2pMode();
@@ -339,6 +340,6 @@ void UdpClient::sendP2PReq()
         //       << ":" << (getState() & BITSET(0x0F)) << ":" << getState()
         //       << "\033[0m" << std::endl;
 
-        sleep(15);
+        sleep(10);
     }
 }
