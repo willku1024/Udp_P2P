@@ -109,4 +109,4 @@
 
 - 图示
 
-  ![](/Users/kuwill/Desktop/Files/Udp_P2P/img/design.png)
+  ![](img/design.png)
