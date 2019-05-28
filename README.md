@@ -108,3 +108,5 @@
 > 3、关联网络通信模式-事件处理模块：网络模块解析出消息type后，回调订阅了该type的handlers
 
 - 图示
+
+  ![](/Users/kuwill/Desktop/Files/Udp_P2P/img/design.png)
