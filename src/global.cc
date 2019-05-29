@@ -6,6 +6,7 @@
 #include <ctime>
 #include <functional>
 #include <stdint.h>
+#include <fcntl.h>
 #include "global.h"
 ///////////////////////////////////////////////////////////// util function
 
@@ -38,4 +39,18 @@ hash_t hash_ (char const *str)
     }
 
     return (hash & 0x7FFFFFFF);
+}
+
+//设置socket非阻塞
+void active_nonblock(int fd)
+{
+    int ret;
+    int flags = fcntl(fd, F_GETFL, 0);
+    if (flags == -1)
+        handle_error("fcntl");
+
+    flags |= O_NONBLOCK;
+    ret = fcntl(fd, F_SETFL, flags);
+    if (ret == -1)
+        handle_error("fcntl");
 }

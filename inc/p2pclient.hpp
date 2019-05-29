@@ -52,6 +52,8 @@ void UdpClient::initSocket(int port, std::string addr)
 
     m_fd = socket(AF_INET, SOCK_DGRAM, 0);
 
+    active_nonblock(m_fd);
+
     if (m_fd == -1)
         handle_error("socket");
 

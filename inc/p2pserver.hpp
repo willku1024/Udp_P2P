@@ -13,7 +13,7 @@ protected:
     void initServer(int port,
                     std::string addr);
     void recvMsg();
-    virtual void setDaemon(){};
+    virtual void setDaemon() {};
 
 protected:
     struct sockaddr_in m_addr;
@@ -23,7 +23,7 @@ protected:
 public:
     UdpServer(int port = 12345,
               std::string addr = "0.0.0.0");
-    virtual ~UdpServer(){};
+    virtual ~UdpServer() {};
     virtual int getSockfd()
     {
         return this->m_fd;
@@ -43,6 +43,8 @@ void UdpServer::initServer(int port, std::string addr)
     m_addr.sin_addr.s_addr = inet_addr(addr.c_str());
 
     m_fd = socket(AF_INET, SOCK_DGRAM, 0);
+    
+    active_nonblock(m_fd);
 
     if (m_fd == -1)
         handle_error("socket");

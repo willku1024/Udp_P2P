@@ -29,6 +29,7 @@ using hash_t = char;
 
 ///////////////////////////////////////////////////////////// function decl
 
+extern void active_nonblock(int fd);
 extern std::pair<char *, unsigned int> get_addr_tuple(const struct sockaddr *remote_addr);
 extern unsigned long gen_machine_code();
 extern hash_t hash_(char const *str);
@@ -52,4 +53,6 @@ constexpr hash_t operator""_hash(const char *str, size_t size)
 
     return (hash & 0x7FFFFFFF);
 }
+
+
 #endif
