@@ -3,7 +3,7 @@
 
 ### 穿透演示
 
-![](http://ww1.sinaimg.cn/large/c1cfa19ely1g3gaavfripj21bz0tzqle.jpg)
+![](img/design.png)
 
 
 
