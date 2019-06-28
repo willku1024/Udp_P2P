@@ -3,7 +3,7 @@
 
 ### 穿透演示
 
-![](img/design.png)
+![](img/show.png)
 
 
 
