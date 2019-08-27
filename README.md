@@ -35,6 +35,7 @@
   - [P2P技术详解(三)：P2P技术之STUN、TURN、ICE详解](http://www.52im.net/thread-557-1-1.html)
 
 
+![](img/punch.png)
 
 ### 概括理解
 
